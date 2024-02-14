@@ -55,6 +55,8 @@ public class RobotContainer {
     public static final ShooterCommand m_ShooterCommand = new ShooterCommand();
     public static final TransportationSubsystem m_TransportationSubsystem = new TransportationSubsystem();
     public static final TransportationCommand m_TransportationCommand = new TransportationCommand();
+    public static final ClimbCommand m_ClimbCommand = new ClimbCommand();
+    public static final ClimbSubsystem m_ClimbSubsystem = new ClimbSubsystem();
 
     private final SendableChooser<Command> autoChooser;
 

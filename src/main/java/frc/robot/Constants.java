@@ -30,6 +30,12 @@ public final class Constants {
         // public static final int CONVEYOR_TALON_PORT = 40;
 
         // }
+        public static final class ClimbConstants {
+
+                public static final int CLIMB_RIGHT_MOTOR_PORT = 0;
+                public static final int CLIMB_LEFT_MOTOR_PORT = 0;
+
+        }
 
         public static final class TransportationConstants {
 
