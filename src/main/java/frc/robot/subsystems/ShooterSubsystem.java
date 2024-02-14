@@ -10,7 +10,9 @@ import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class ShooterSubsystem extends SubsystemBase {
   CANSparkFlex nonStaticMotor = new CANSparkFlex(Constants.ShooterConstants.NON_STATIC_MOTOR_PORT,
@@ -23,14 +25,18 @@ public class ShooterSubsystem extends SubsystemBase {
     nonStaticMotor.setInverted(true);
   }
 
-  public void shootUp(double nonStaticMotorSpeed, double staticMotorSpeed) {
+  public void shootUp(double nonStaticMotorSpeed, double staticMotorSpeed, double transportationSpeed) {
     nonStaticMotor.set(-nonStaticMotorSpeed);
     staticMotor.set(staticMotorSpeed);
+    // new WaitCommand(5.0);
+    RobotContainer.transportationMotor.set(transportationSpeed);
   }
 
-  public void shootDown(double nonStaticMotorSpeed, double staticMotorSpeed) {
+  public void shootDown(double nonStaticMotorSpeed, double staticMotorSpeed, double transportationSpeed) {
     nonStaticMotor.set(nonStaticMotorSpeed);
     staticMotor.set(staticMotorSpeed);
+    // new WaitCommand(5.0);
+    RobotContainer.transportationMotor.set(transportationSpeed);
   }
 
   public void stopMotors() {

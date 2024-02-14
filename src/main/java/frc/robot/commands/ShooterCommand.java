@@ -30,11 +30,11 @@ public class ShooterCommand extends Command {
   }
 
   public void spinUp(double nonStaticMotorSpeed, double staticMotorSpeed) {
-    RobotContainer.m_ShooterSubsystem.shootUp(nonStaticMotorSpeed, staticMotorSpeed);
+    RobotContainer.m_ShooterSubsystem.shootUp(nonStaticMotorSpeed, staticMotorSpeed, 1);
   }
 
   public void spinDown(double nonStaticMotorSpeed, double staticMotorSpeed) {
-    RobotContainer.m_ShooterSubsystem.shootDown(nonStaticMotorSpeed - 0.2, staticMotorSpeed - 0.2);
+    RobotContainer.m_ShooterSubsystem.shootDown(nonStaticMotorSpeed - 0.2, staticMotorSpeed - 0.2, 1);
   }
 
   public void stopShooter() {
@@ -56,6 +56,9 @@ public class ShooterCommand extends Command {
     double staticMotorSpeed = Robot.staticShooterMotorSpeed.getDouble(0);
     double nonStaticMotorSpeed = Robot.nonStaticShooterMotorSpeed.getDouble(0);
 
+    if (RobotContainer.xboxController.getAButton() || RobotContainer.xboxController.getAButton()) {
+      RobotContainer.transportationShooter = !RobotContainer.transportationShooter;
+    }
     if (DriverStation.isTeleop()) {
       if (RobotContainer.xboxController.getAButton()) {
         spinUp(nonStaticMotorSpeed, staticMotorSpeed);

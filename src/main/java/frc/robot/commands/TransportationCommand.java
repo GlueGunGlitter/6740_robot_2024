@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -30,6 +31,7 @@ public class TransportationCommand extends Command {
     if (DriverStation.isTeleop()) {
       if (RobotContainer.xboxController.getRightBumperPressed()) {
         workUP = !workUP;
+        RobotContainer.transportationNormal = !RobotContainer.transportationShooter;
       }
       if (RobotContainer.xboxController.getBackButtonPressed()) {
         workDown = !workDown;
@@ -37,6 +39,13 @@ public class TransportationCommand extends Command {
       if (workUP == true && workDown == true) {
         workUP = false;
       }
+
+      if (RobotContainer.transportationNormal == false &&
+          RobotContainer.transportationShooter == true) {
+        new WaitCommand(5.0);
+        RobotContainer.transportationMotor.set(1);
+      }
+
       if (workUP) {
         RobotContainer.m_TransportationSubsystem.setSpeed(Robot.intakeLowerMotorSpeed.getDouble(0),
             Robot.intakeHigherMotorSpeed.getDouble(0), Robot.transportationMotorSpeed.getDouble(0));

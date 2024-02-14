@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -32,7 +33,10 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-
+    public static final WPI_TalonSRX transportationMotor = new WPI_TalonSRX(
+            Constants.TransportationConstants.TRANSPORTATION_MOTOR_PORT);
+    public static boolean transportationNormal = false;
+    public static boolean transportationShooter = false;
     /* Controllers */
     public static final XboxController xboxController = new XboxController(0);
     private final Joystick driver = new Joystick(0);
