@@ -105,8 +105,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        toggleButton.onTrue(Commands.runOnce(()->intakeCommand.initialize())).onFalse(Commands.runOnce(()->intakeCommand.cancel()));
+        // toggleButton.onTrue(Commands.runOnce(()->intakeCommand.initialize())).onFalse(Commands.runOnce(()->intakeCommand.cancel()));
 
+        /* Boolean Buttons */
+        toggleButton.onTrue(Commands.runOnce(()-> intakeCommand.changeState()));
     }
 
     private void registerCommands() {

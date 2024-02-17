@@ -20,6 +20,8 @@ public class IntakeSubsystem extends SubsystemBase {
     private PIDController lowPIDController;
     private PIDController highPIDController;
 
+    public Boolean state = false; 
+
 
   /** Creates a new Intake. */
   public IntakeSubsystem() {
@@ -37,13 +39,19 @@ public class IntakeSubsystem extends SubsystemBase {
   public void setSpeed(double lowerSpeed,double highSpeed){
     lowPIDController.setSetpoint(lowerSpeed);
     highPIDController.setSetpoint(highSpeed);
+    
+    state = true;
   }
 
   public void cancel(){
     lowPIDController.setSetpoint(0);
     highPIDController.setSetpoint(0);
 
+    state = false;
+
   }
+
+
 
 
   @Override

@@ -35,6 +35,11 @@ public class collectPiece extends Command {
     m_Intake.cancel();
   }
 
+  public void changeState(){
+    if (m_Intake.state) cancel();
+    else initialize();
+  }
+
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
