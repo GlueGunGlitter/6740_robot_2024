@@ -7,6 +7,7 @@ package frc.robot;
 import javax.swing.RootPaneContainer;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -44,7 +45,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
+    for (int port = 5800; port <= 5807; port++) {
+      PortForwarder.add(port, "limelight.local", port);
+    }
     // CameraServer.startAutomaticCapture(); #TODO
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
