@@ -37,6 +37,8 @@ public class Robot extends TimedRobot {
   public static GenericEntry staticShooterMotorSpeed;
   public static GenericEntry transportationMotorSpeed;
 
+
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any

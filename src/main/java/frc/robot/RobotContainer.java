@@ -45,7 +45,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
-    private final JoystickButton testCmd = new JoystickButton(driver, XboxController.Button.kX.value);
+    private final JoystickButton toggleButton = new JoystickButton(driver, XboxController.Button.kX.value);
 
     // private final JoystickButton IntakeEnableCommand = new JoystickButton(driver,
     // XboxController.Button.kRightBumper.value);
@@ -55,6 +55,10 @@ public class RobotContainer {
     public static final ShooterCommand m_ShooterCommand = new ShooterCommand();
     public static final TransportationSubsystem m_TransportationSubsystem = new TransportationSubsystem();
     public static final TransportationCommand m_TransportationCommand = new TransportationCommand();
+    private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+
+    private final collectPiece intakeCommand = new collectPiece(m_IntakeSubsystem);
+
 
     private final SendableChooser<Command> autoChooser;
 
@@ -63,6 +67,7 @@ public class RobotContainer {
      * for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        
         // Build an auto chooser. This will use Commands.none() as the default option.
         // Command intake = Commands.run(() -> m_TransportationSubsystem.setSpeed(0.6,
         // 0.6, 1));
@@ -100,8 +105,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        testCmd.onTrue(new enableHighShooter());
-        // IntakeEnableCommand.onTrue(Commands.sequence(intake));
+        toggleButton.onTrue(Commands.runOnce(()->intakeCommand.initialize())).onFalse(Commands.runOnce(()->intakeCommand.cancel()));
+
     }
 
     private void registerCommands() {
