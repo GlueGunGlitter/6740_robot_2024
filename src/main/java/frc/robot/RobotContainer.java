@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.automations.*;
 
 import frc.robot.autos.*;
@@ -41,6 +41,12 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    POVButton d_Uppov = new POVButton(driver, 0);
+    POVButton d_Rightpov = new POVButton(driver, 90);
+    POVButton d_Downpov = new POVButton(driver, 180);
+    POVButton d_Leftpov = new POVButton(driver, 270);
+
+
 
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
@@ -101,6 +107,11 @@ public class RobotContainer {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
         testCmd.onTrue(new enableHighShooter());
+        d_Uppov.onTrue(new TrunToAngle(s_Swerve, 0));
+        d_Rightpov.onTrue(new TrunToAngle(s_Swerve, 90));
+        d_Downpov.onTrue(new TrunToAngle(s_Swerve, 180));
+        d_Leftpov.onTrue(new TrunToAngle(s_Swerve, 270));
+
         // IntakeEnableCommand.onTrue(Commands.sequence(intake));
     }
 

@@ -165,6 +165,11 @@ public final class Constants {
                                         angleMotorID,
                                         canCoderID, angleOffset);
                 }
+
+				public Object drive(Translation2d translation2d, double d, boolean b, boolean c) {
+					// TODO Auto-generated method stub
+					throw new UnsupportedOperationException("Unimplemented method 'drive'");
+				}
         }
 
         public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be
