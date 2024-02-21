@@ -1,17 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.driveCommands;
 
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// NOTE:  Consider usingbvbg this command inline, rather than writing a subclass.  For more
 // information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+// https:/docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TrunToAngle extends PIDCommand {
   /** Creates a new TrunToAngle. */
-  
-  public TrunToAngle(Swerve m_swerve, double angleTurn) {
+
+  public TrunToAngle(Swerve m_swerve, double angleTurn, Translation2d translationVal) {
     super(
         // The controller that the command will use
         new PIDController(5, 0.0, 0.0),
@@ -20,11 +20,11 @@ public class TrunToAngle extends PIDCommand {
         // This should return the setpoint (can also be a constant)
         angleTurn,
         // This uses the output
-        output -> m_swerve.drive(new Translation2d(0, 0), -output, true, true),
+        output -> m_swerve.drive(translationVal, -output, true, true),
         m_swerve);
-        
-        getController().enableContinuousInput(-180, 180);
-        getController().setTolerance(5);
+
+    getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(5);
   }
 
   // Returns true when the command should end.

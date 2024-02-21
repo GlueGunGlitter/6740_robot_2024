@@ -76,6 +76,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().schedule(RobotContainer.m_TransportationCommand);
     CommandScheduler.getInstance().schedule(RobotContainer.m_ShooterCommand);
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

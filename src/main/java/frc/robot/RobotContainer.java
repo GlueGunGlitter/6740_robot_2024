@@ -4,9 +4,12 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,20 +38,23 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
 
+    public static double translationVal;
+    public static double strafeVal;
+
     /* Controllers */
     public static final XboxController xboxController = new XboxController(0);
-    private final Joystick driver = new Joystick(0);
+    private final static Joystick driver = new Joystick(0);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+
+    /* Driver Buttons */
     POVButton d_Uppov = new POVButton(driver, 0);
     POVButton d_Rightpov = new POVButton(driver, 90);
     POVButton d_Downpov = new POVButton(driver, 180);
     POVButton d_Leftpov = new POVButton(driver, 270);
-
-    /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, XboxController.Button.kY.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, XboxController.Button.kLeftBumper.value);
     private final JoystickButton testCmd = new JoystickButton(driver, XboxController.Button.kX.value);
@@ -106,14 +112,18 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
-        testCmd.onTrue(new enableHighShooter());
-        d_Uppov.onTrue(new TrunToAngle(s_Swerve, 0));
-        d_Rightpov.onTrue(new TrunToAngle(s_Swerve, 90));
-        d_Downpov.onTrue(new TrunToAngle(s_Swerve, 180));
-        d_Leftpov.onTrue(new TrunToAngle(s_Swerve, 270));
-
-        // IntakeEnableCommand.onTrue(Commands.sequence(intake));
+        // testCmd.onTrue(new enableHighShooter());
+        d_Uppov.onTrue(new TrunToAngle(s_Swerve, 0,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed)));
+        d_Rightpov.onTrue(new TrunToAngle(s_Swerve, 90,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed)));
+        d_Downpov.onTrue(new TrunToAngle(s_Swerve, 180,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed)));
+        d_Leftpov.onTrue(new TrunToAngle(s_Swerve, 270,
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed)));
     }
+
+    // IntakeEnableCommand.onTrue(Commands.sequence(intake));
 
     private void registerCommands() {
         NamedCommands.registerCommand("HighShooter", new enableHighShooter());

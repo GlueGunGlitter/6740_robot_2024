@@ -23,6 +23,8 @@ public final class Constants {
                 // the ports needs to be change
                 public static final int NON_STATIC_MOTOR_PORT = 31;
                 public static final int STATIC_MOTOR_PORT = 32;
+                public static final double MAX_SPEED_OF_STATIC_MOTOR = 0;
+                public static final double MAX_SPEED_OF_NON_STATIC_MOTOR = 0;
 
         }
 
@@ -166,10 +168,10 @@ public final class Constants {
                                         canCoderID, angleOffset);
                 }
 
-				public Object drive(Translation2d translation2d, double d, boolean b, boolean c) {
-					// TODO Auto-generated method stub
-					throw new UnsupportedOperationException("Unimplemented method 'drive'");
-				}
+                public Object drive(Translation2d translation2d, double d, boolean b, boolean c) {
+                        // TODO Auto-generated method stub
+                        throw new UnsupportedOperationException("Unimplemented method 'drive'");
+                }
         }
 
         public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be

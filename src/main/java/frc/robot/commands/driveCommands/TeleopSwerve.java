@@ -1,6 +1,7 @@
-package frc.robot.commands;
+package frc.robot.commands.driveCommands;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve;
 
 import java.util.function.BooleanSupplier;
@@ -31,13 +32,14 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband */
-        double translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
-        double strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
+        RobotContainer.translationVal = MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.stickDeadband);
+        RobotContainer.strafeVal = MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.stickDeadband);
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
 
         /* Drive */
         s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed),
+                new Translation2d(RobotContainer.translationVal, RobotContainer.strafeVal)
+                        .times(Constants.Swerve.maxSpeed),
                 rotationVal * Constants.Swerve.maxAngularVelocity,
                 true,
                 true);

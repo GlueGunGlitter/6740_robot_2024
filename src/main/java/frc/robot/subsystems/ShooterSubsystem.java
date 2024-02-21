@@ -4,19 +4,23 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
+
   CANSparkFlex nonStaticMotor = new CANSparkFlex(Constants.ShooterConstants.NON_STATIC_MOTOR_PORT,
       MotorType.kBrushless);
   CANSparkFlex staticMotor = new CANSparkFlex(Constants.ShooterConstants.STATIC_MOTOR_PORT,
       MotorType.kBrushless);
+  PIDController staticMotorPID = new PIDController(5, 0, 0);
+  PIDController nonStaticMotorPID = new PIDController(5, 0, 0);
+
+  private int setPoint = 0;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -24,22 +28,43 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void shootUp(double nonStaticMotorSpeed, double staticMotorSpeed) {
-    nonStaticMotor.set(-nonStaticMotorSpeed);
-    staticMotor.set(staticMotorSpeed);
+    nonStaticMotorPID.setSetpoint(-nonStaticMotorSpeed);
+    staticMotorPID.setSetpoint(staticMotorSpeed);;
   }
 
   public void shootDown(double nonStaticMotorSpeed, double staticMotorSpeed) {
-    nonStaticMotor.set(nonStaticMotorSpeed);
-    staticMotor.set(staticMotorSpeed);
+    nonStaticMotorPID.setSetpoint(nonStaticMotorSpeed);
+    staticMotorPID.setSetpoint(staticMotorSpeed);
   }
 
   public void stopMotors() {
-    nonStaticMotor.stopMotor();
-    staticMotor.stopMotor();
+    nonStaticMotorPID.setSetpoint(0);
+    staticMotorPID.setSetpoint(0);
+  }
+
+  private double getVelocityOfNonStaticMotor() {
+    return nonStaticMotor.getEncoder().getVelocity();
+  }
+
+  private double getVelocityOfStaticMotor() {
+    return staticMotor.getEncoder().getVelocity();
+  }
+
+  private double calculateSpeedToStaticMotor() {
+    return staticMotorPID.calculate(getVelocityOfStaticMotor())
+        / Constants.ShooterConstants.MAX_SPEED_OF_STATIC_MOTOR;
+  }
+
+  private double calculateSpeedToNonStaticMotor() {
+    return nonStaticMotorPID.calculate(getVelocityOfNonStaticMotor())
+        / Constants.ShooterConstants.MAX_SPEED_OF_NON_STATIC_MOTOR;
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    nonStaticMotor.set(calculateSpeedToNonStaticMotor());
+    staticMotor.set(calculateSpeedToStaticMotor());
   }
 }
